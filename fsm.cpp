@@ -3,8 +3,8 @@
 
 // Minimal comments (fr/eng): FSM gère états
 static fsm_state_t currentState = STATE_IDLE;
-static int directionChanges = 0; // count after first run
-// directionChanges compte chaque inversion
+static int directionChanges = 0; // Count direction changes after the first start
+// directionChanges compte chaque inversion après le démarrage initial
 // Running states: CW or CCW
 // On first detection: go to CW, next detection: CCW, etc.
 
@@ -18,8 +18,12 @@ void fsmUpdate(unsigned long now) {
 }
 
 void fsmOnObjectDetected() {
-  if (currentState == STATE_STOPPED) return;
-  
+  if (currentState == STATE_STOPPED) {
+    // Debug: Detection signal received while stopped
+    debugLog("Detection signal ignored: system is stopped.");
+    return;
+  }
+
   if (currentState == STATE_IDLE) {
     // first detection
     currentState = STATE_RUNNING_CW;
