@@ -26,7 +26,7 @@ void handleSensor() {
 
   unsigned long duration = pulseIn(ECHO_PIN, HIGH, 30000UL);
   if (duration > 0) {
-    unsigned long dist = duration / 58; // rough cm calc
+    unsigned long dist = duration / 58; // convert µs to cm
     if (dist > 0 && dist < 20) {
       // object detected
       // avoid multiple triggers in short time
